@@ -13,11 +13,22 @@ public class StopwatchActivity extends Activity {
     private int seconds = 0; // Use the seconds to record the number of seconds
     private boolean running; // use the running to set whether the stopwatch is running
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stopwatch);
+        if (savedInstanceState != null) {
+            seconds = savedInstanceState.getInt("seconds");
+            running = savedInstanceState.getBoolean("running");
+        }
         runTimer();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putInt("seconds", seconds);
+        savedInstanceState.putBoolean("running", running);
     }
 
     // Start the stopwatch running when the Start button is clicked
@@ -34,6 +45,18 @@ public class StopwatchActivity extends Activity {
     public void onClickReset(View view) {
         running = false; //Stop the stopwatch and
         seconds = 0; // set the seconds to 0
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        running = true;
+    }
+
+    @Override
+    protected void onStop () {
+        super.onStop();
+        running = false;
     }
 
     /*  This method get a reference to the text view;
